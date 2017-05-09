@@ -26,7 +26,7 @@ has url => (
 );
 has host => (
     is      => 'rw',
-    default => 'stash.optusnet.com.au',
+    default => '',
 );
 has [qw/user pass/] => (
     is  => 'rw',
