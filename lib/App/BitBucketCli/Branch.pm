@@ -1,6 +1,6 @@
-package App::BitBucketCli;
+package App::BitBucketCli::Branch;
 
-# Created on: 2017-04-24 08:14:30
+# Created on: 2015-11-12 07:36:10
 # Create by:  Ivan Wills
 # $Id$
 # $Revision$, $HeadURL$, $Date$
@@ -10,128 +10,91 @@ use Moo;
 use warnings;
 use version;
 use Carp;
-use WWW::Mechanize;
-use JSON::XS qw/decode_json encode_json/;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
-use App::BitBucketCli::Branch;
-use App::BitBucketCli::PullRequest;
 
-our $VERSION = 0.001;
+our $VERSION = version->new('0.0.1');
 
-has url => (
-    is      => 'rw',
-    builder => '_url',
-    lazy    => 1,
-);
-has host => (
-    is      => 'rw',
-    default => 'stash.optusnet.com.au',
-);
-has [qw/user pass/] => (
+has [qw/
+    displayId
+    id
+    isDefault
+    latestChangeset
+    latestCommit
+    metadata
+    project
+    repository
+/] => (
     is  => 'rw',
 );
-has mech => (
+has team => (
     is      => 'rw',
-    default => sub { WWW::Mechanize->new },
+    builder => '_team',
+    lazy    => 1,
+);
+has pull_request => (
+    is      => 'rw',
+    builder => '_pull_request',
+    lazy    => 1,
+);
+has primary_job => (
+    is      => 'rw',
+    builder => '_primary_job',
+    lazy    => 1,
+);
+has pr_job => (
+    is      => 'rw',
+    builder => '_pr_job',
+    lazy    => 1,
 );
 
-sub pull_requests {
-    my ($self, $project, $repository) = @_;
-    my $json;
-    my @prs;
+sub timestamp { $_[0]->metadata->{'com.atlassian.stash.stash-branch-utils:latest-changeset-metadata'}{authorTimestamp}/1000; }
+sub name      { $_[0]->displayId; }
 
-    eval {
-        $json = $self->_get($self->url . "/projects/$project/repos/$repository/pull-requests");
-    };
-    if ($@) {
-        warn "Couldn't get pull requests for $project/$repository\n";
-        return [];
-    }
-
-    for my $pr (@{ $json->{values} }) {
-        push @prs, App::BitBucketCli::PullRequest->new($pr);
-    }
-
-    return \@prs;
-}
-
-sub branches {
-    my ($self, $project, $repository) = @_;
-    my $json;
-    my @branches;
-
-    eval {
-        $json = $self->_get($self->url . "/projects/$project/repos/$repository/branches?orderBy=MODIFICATION&details=true&limit=100");
-    };
-    my $error = $@;
-    if ($error) {
-        if ($error =~ /Unauthorized/) {
-            warn "Unauthorized, please try resetting your password!\n";
-            exit 10;
-        }
-
-        warn "Couldn't get branches of $project/$repository\n";
-        return [];
-    }
-
-    for my $branch (@{ $json->{values} }) {
-        $branch->{project}    = $project;
-        $branch->{repository} = $repository;
-        push @branches, App::BitBucketCli::Branch->new($branch);
-    }
-
-    return \@branches;
-}
-
-sub _get {
-    my ($self, $url) = @_;
-
-    $self->mech->get($url);
-
-    return decode_json($self->mech->content);
-}
-
-sub jiras {
-    my ($self, $pr) = @_;
-
-    eval {
-        $self->mech->get($self->url . $pr->link->{url} . '/commits');
-    };
-    if ($@) {
-        warn "Couldn't get jiras from pull requests for $pr->from_name $pr->id\n";
-        return [];
-    }
-
-    my $json = decode_json($self->mech->content);
-    my %jiras;
-
-    for my $commit (@{ $json->{values} }) {
-        for my $jira (@{ $commit->{attributes}{'jira-key'} || [] }) {
-            $jiras{$jira} = 1;
-        }
-    }
-
-    return [ sort keys %jiras ];
-}
-
-sub _url {
+sub _pull_request {
     my ($self) = @_;
-    my $url = "https://"
-        . _url_encode($self->user)
-        . ':'
-        . _url_encode($self->pass)
-        . '@'
-        . $self->host
-        . "/rest/api/1.0";
+    my $prs = $self->{metadata}{'com.atlassian.stash.stash-ref-metadata-plugin:outgoing-pull-request-metadata'};
+    return 0 if !$prs;
 
-    return $url;
+    return 0 if exists $prs->{open};
+
+    return App::BitBucketCli::PullRequest->new($prs->{pullRequest});
 }
 
-sub _url_encode {
-    my $str = shift;
-    $str =~ s/(\W)/sprintf('%%%x',ord($1))/eg;
-    return $str;
+sub _team {
+    my ($self) = @_;
+    my $branch = $self->name;
+
+    my ($project) = $branch =~ /^([a-zA-Z0-9]+)_(?:\d+|release)/;
+    return $project if $project;
+
+    ($project) = $branch =~ /^project_([a-zA-Z0-9]+)/;
+    return $project if $project;
+
+    return "Other";
+}
+
+sub _primary_job {
+    my ($self) = @_;
+
+    my $project    = $self->project;
+    my $repository = $self->repository;
+    my $name       = $self->name;
+
+    $name =~ s/([^\w-])/_/g;
+
+    return $project . '-' . $repository . '-' . $name;
+}
+
+sub _pr_job {
+    my ($self) = @_;
+
+    return 'pr-' . $self->primary_job . '-' . $self->displayId;
+}
+
+sub TO_JSON {
+    my ($self) = @_;
+    return { %{ $self }, metadata => undef };
 }
 
 1;
@@ -140,24 +103,21 @@ __END__
 
 =head1 NAME
 
-App::BitBucketCli - Library for talking to BitBucket Server (or Stash)
+App::BitBucketCli::Branch - <One-line description of module's purpose>
 
 =head1 VERSION
 
-This documentation refers to App::BitBucketCli version 0.0.1
+This documentation refers to App::BitBucketCli::Branch version 0.0.1
 
 
 =head1 SYNOPSIS
 
-   use App::BitBucketCli;
+   use App::BitBucketCli::Branch;
 
-   # create a stash object
-   my $stash = App::BitBucketCli->new(
-       url => 'http://stash.example.com/',
-   );
+   # Brief but working code example(s) here showing the most common usage(s)
+   # This section will be as far as many users bother reading, so make it as
+   # educational and exemplary as possible.
 
-   # Get a list of open pull requests for a repository
-   my $prs = $stash->pull_requests($project, $repository);
 
 =head1 DESCRIPTION
 
@@ -185,7 +145,7 @@ context to help them understand the methods that are subsequently described.
 
 Param: C<$search> - type (detail) - description
 
-Return: App::BitBucketCli -
+Return: App::BitBucketCli::Branch -
 
 Description:
 
@@ -240,7 +200,7 @@ Ivan Wills - (ivan.wills@gmail.com)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2017 Ivan Wills (14 Mullion Close, Hornsby Heights, NSW Australia 2077).
+Copyright (c) 2015 Ivan Wills (14 Mullion Close, Hornsby Heights, NSW Australia 2077).
 All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it under
