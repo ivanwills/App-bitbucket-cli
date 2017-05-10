@@ -47,6 +47,11 @@ has pr_job => (
     builder => '_pr_job',
     lazy    => 1,
 );
+has lastChangeTime => (
+    is      => 'rw',
+    builder => '_lastChangeTime',
+    lazy    => 1,
+);
 
 sub timestamp { $_[0]->metadata->{'com.atlassian.stash.stash-branch-utils:latest-changeset-metadata'}{authorTimestamp}/1000; }
 sub name      { $_[0]->displayId; }
@@ -61,35 +66,13 @@ sub _pull_request {
     return App::BitBucketCli::PullRequest->new($prs->{pullRequest});
 }
 
-sub _team {
+sub _lastChangeTime {
     my ($self) = @_;
-    my $branch = $self->name;
+    my $metadata = $self->metadata;
 
-    my ($project) = $branch =~ /^([a-zA-Z0-9]+)_(?:\d+|release)/;
-    return $project if $project;
+    my $time = $metadata->{'com.atlassian.stash.stash-branch-utils:latest-changeset-metadata'}{authorTimestamp};
 
-    ($project) = $branch =~ /^project_([a-zA-Z0-9]+)/;
-    return $project if $project;
-
-    return "Other";
-}
-
-sub _primary_job {
-    my ($self) = @_;
-
-    my $project    = $self->project;
-    my $repository = $self->repository;
-    my $name       = $self->name;
-
-    $name =~ s/([^\w-])/_/g;
-
-    return $project . '-' . $repository . '-' . $name;
-}
-
-sub _pr_job {
-    my ($self) = @_;
-
-    return 'pr-' . $self->primary_job . '-' . $self->displayId;
+    return $time ? int $time / 1000 : 0;
 }
 
 sub TO_JSON {
