@@ -45,7 +45,7 @@ sub projects {
     my ($self, @filter) = @_;
 
     my @projects = sort {
-        $a->{name} cmd $b->{name};
+        $a->{name} cmp $b->{name};
     }
     $self->core->projects();
 
