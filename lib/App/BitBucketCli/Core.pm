@@ -135,7 +135,7 @@ sub _get {
 
 sub _url {
     my ($self) = @_;
-    warn my $url = "https://"
+    my $url = "https://"
         . _url_encode($self->user)
         . ':'
         . _url_encode($self->pass)
