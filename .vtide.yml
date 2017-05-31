@@ -1,12 +1,18 @@
---- 
-count: 4
-default: 
+---
+count: 6
+default:
   restart: 0
   wait: 0
-editor: 
-  files: 
-    eg: 
-      - some-file.eg
+editor:
+  files:
+    main:
+      - lib/App/BitBucketCli.pm
+      - lib/App/BitBucketCli/Core.pm
+    other:
+      - lib/App/BitBucketCli/Project.pm
+      - lib/App/BitBucketCli/Repository.pm
+      - lib/App/BitBucketCli/Branch.pm
+      - lib/App/BitBucketCli/PullRequest.pm
 name: bitbucket-cli
 terminals:
   1a:
@@ -18,9 +24,10 @@ terminals:
       - bin
       - tests
   2:
-    edit:
-      - lib
+    edit: main
   3:
+    edit: other
+  4:
     restart: 1
     wait: 1
     edit:
