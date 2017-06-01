@@ -104,7 +104,7 @@ sub to_data {
 
 sub TO_JSON {
     my ($self) = @_;
-    return { %{ $self }, metadata => undef };
+    return { %{ $self } };
 }
 
 1;
