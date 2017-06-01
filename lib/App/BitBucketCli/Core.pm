@@ -14,6 +14,8 @@ use WWW::Mechanize;
 use JSON::XS qw/decode_json encode_json/;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
+use App::BitBucketCli::Project;
+use App::BitBucketCli::Repository;
 use App::BitBucketCli::Branch;
 use App::BitBucketCli::PullRequest;
 
@@ -61,7 +63,55 @@ sub projects {
         $next_page_start = $json->{nextPageStart};
     }
 
-    die Dumper \@projects;
+    return map {App::BitBucketCli::Project->new($_)} @projects;
+}
+
+sub repositories {
+    my ($self, $project) = @_;
+    my @repositories;
+    my $last_page = 0;
+    my $next_page_start = 0;
+    my $limit = 30;
+
+    while ( ! $last_page ) {
+        my $json;
+        eval {
+            $json = $self->_get($self->url . "/projects/$project/repos?limit=$limit&start=$next_page_start");
+            1;
+        } || do {
+            warn "Couldn't list repositories: $@\n";
+            return [];
+        };
+        push @repositories, @{ $json->{values} };
+        $last_page = $json->{isLastPage};
+        $next_page_start = $json->{nextPageStart};
+    }
+
+    return map {App::BitBucketCli::Repository->new($_)} @repositories;
+}
+
+sub pull_requests {
+    my ($self, $project, $repository) = @_;
+    my @pull_requests;
+    my $last_page = 0;
+    my $next_page_start = 0;
+    my $limit = 30;
+
+    while ( ! $last_page ) {
+        my $json;
+        eval {
+            $json = $self->_get($self->url . "/projects/$project/repos/$repository/pull-requests?limit=$limit&start=$next_page_start");
+            1;
+        } || do {
+            warn "Couldn't list pull_requests $@\n";
+            return [];
+        };
+        push @pull_requests, @{ $json->{values} };
+        $last_page = $json->{isLastPage};
+        $next_page_start = $json->{nextPageStart};
+    }
+
+    return map {App::BitBucketCli::PullRequest->new($_)} @pull_requests;
 }
 
 sub branch {
@@ -128,6 +178,7 @@ sub get_branches {
 sub _get {
     my ($self, $url) = @_;
 
+    #warn "$url\n";
     $self->mech->get($url);
 
     return decode_json($self->mech->content);
