@@ -73,19 +73,22 @@ sub main {
         host => $options->{host},
         user => $options->{username},
         pass => $options->{password},
-    }, $options;
+    }, $options, \@ARGV;
 
     # do stuff here
     my $bbs = App::BitBucketCli->new(
         host => $options->{host},
         user => $options->{username},
         pass => $options->{password},
+        opt  => $options,
     );
 
     $cmd =~ s/-/_/gxms;
     my %map = (
         $cmd => $cmd,
-        ls => 'list',
+        ls    => 'list',
+        repos => 'repositories',
+        prs   => 'pull_requests',
     );
 
     $cmd = $map{$cmd};
