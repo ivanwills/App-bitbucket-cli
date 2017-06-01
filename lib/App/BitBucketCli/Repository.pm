@@ -16,30 +16,23 @@ use English qw/ -no_match_vars /;
 our $VERSION = version->new('0.0.1');
 
 has [qw/
-    state
     id
-    toRef
-    closed
-    version
-    attributes
-    open
-    locke
-    fromRef
-    updatedDate
-    createdDate
-    title
-    links
-    reviewers
-    participants
     link
-    author
+    links
+    state
 /] => (
     is  => 'rw',
 );
 
+sub name {
+    my ($self) = @_;
+    my ($name) = $self->link->{url} =~ m{([^/]+)/browse$};
+    return $name;
+}
+
 sub TO_JSON {
     my ($self) = @_;
-    return { %{ $self }, metadata => undef };
+    return { %{ $self }, name => $self->name };
 }
 
 1;
