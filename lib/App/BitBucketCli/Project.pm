@@ -16,23 +16,14 @@ use English qw/ -no_match_vars /;
 our $VERSION = version->new('0.0.1');
 
 has [qw/
-    state
+    description
     id
-    toRef
-    closed
-    version
-    attributes
-    open
-    locke
-    fromRef
-    updatedDate
-    createdDate
-    title
-    links
-    reviewers
-    participants
+    key
     link
-    author
+    links
+    name
+    public
+    type
 /] => (
     is  => 'rw',
 );
@@ -40,7 +31,7 @@ has [qw/
 
 sub TO_JSON {
     my ($self) = @_;
-    return { %{ $self }, metadata => undef };
+    return { %{ $self } };
 }
 
 1;
