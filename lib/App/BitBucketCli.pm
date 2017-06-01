@@ -42,17 +42,44 @@ around BUILDARGS => sub {
 };
 
 sub projects {
-    my ($self, @filter) = @_;
+    my ($self) = @_;
 
     my @projects = sort {
-        $a->{name} cmp $b->{name};
-    }
-    $self->core->projects();
+            lc $a->name cmp lc $b->name;
+        }
+        $self->core->projects();
 
     for my $project (@projects) {
-        print "$project->{name}\n";
+        print $project->name . "\n";
     }
 }
+
+sub repositories {
+    my ($self) = @_;
+
+    my @repositories = sort {
+            lc $a->name cmp lc $b->name;
+        }
+        $self->core->repositories($self->opt->{project});
+
+    for my $repository (@repositories) {
+        print $repository->name . "\n";
+    }
+}
+
+sub pull_requests {
+    my ($self) = @_;
+
+    my @pull_requests = sort {
+            lc $a->id cmp lc $b->id;
+        }
+        $self->core->pull_requests($self->opt->{project}, $self->opt->{repo});
+
+    for my $pull_request (@pull_requests) {
+        print $pull_request->id . ' - ' . $pull_request->title . "\n";
+    }
+}
+
 
 1;
 
