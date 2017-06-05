@@ -58,5 +58,11 @@ subtest 'Changes' => sub {
     );
 };
 
+module_boilerplate_ok('bin/bb-cli');
 module_boilerplate_ok('lib/App/BitBucketCli.pm');
+module_boilerplate_ok('lib/App/BitBucketCli/Branch.pm');
+module_boilerplate_ok('lib/App/BitBucketCli/Core.pm');
+module_boilerplate_ok('lib/App/BitBucketCli/Project.pm');
+module_boilerplate_ok('lib/App/BitBucketCli/PullRequest.pm');
+module_boilerplate_ok('lib/App/BitBucketCli/Repository.pm');
 done_testing();
