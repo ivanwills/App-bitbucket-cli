@@ -19,7 +19,6 @@ my $builder = Module::Build->new(
     },
     share_dir => {
         dist => [
-            'xslt',
         ],
     },
     add_to_cleanup     => [ 'App-BitBucket-cli-*' ],
