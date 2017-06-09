@@ -1,5 +1,4 @@
 bin/bb-cli
-bin/bitbucket-cli
 Build.PL
 Changes
 lib/App/BitBucketCli.pm
