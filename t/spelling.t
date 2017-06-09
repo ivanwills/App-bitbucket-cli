@@ -31,5 +31,16 @@ add_stopwords(qw/
     BitBucket
     bb
     cli
+    mech
+    createdDate
+    displayId
+    fromRef
+    isDefault
+    lastChangeTime
+    latestChangeset
+    latestCommit
+    locke
+    toRef
+    updatedDate
 /);
 all_pod_files_spelling_ok();
