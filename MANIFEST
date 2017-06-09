@@ -1,7 +1,13 @@
+bin/bb-cli
 bin/bitbucket-cli
 Build.PL
 Changes
 lib/App/BitBucketCli.pm
+lib/App/BitBucketCli/Branch.pm
+lib/App/BitBucketCli/Core.pm
+lib/App/BitBucketCli/Project.pm
+lib/App/BitBucketCli/PullRequest.pm
+lib/App/BitBucketCli/Repository.pm
 LICENSE
 MANIFEST
 META.json
