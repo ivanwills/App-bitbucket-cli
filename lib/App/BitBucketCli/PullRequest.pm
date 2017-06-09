@@ -131,7 +131,27 @@ This documentation refers to App::BitBucketCli::PullRequest version 0.0.1
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<emails ()>
 
+=head2 C<from_branch ()>
+
+=head2 C<from_data ()>
+
+=head2 C<from_name ()>
+
+=head2 C<from_project ()>
+
+=head2 C<from_repository ()>
+
+=head2 C<to_branch ()>
+
+=head2 C<to_data ()>
+
+=head2 C<to_name ()>
+
+=head2 C<to_project ()>
+
+=head2 C<to_repository ()>
 
 =head2 C<TO_JSON ()>
 

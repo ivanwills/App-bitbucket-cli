@@ -105,7 +105,9 @@ This documentation refers to App::BitBucketCli::Branch version 0.0.1
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<name ()>
 
+=head2 C<timestamp ()>
 
 =head2 C<TO_JSON ()>
 
