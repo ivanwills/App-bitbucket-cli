@@ -232,6 +232,31 @@ This documentation refers to App::BitBucketCli::Core version 0.0.1
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<branch ()>
+
+=head2 C<get_branches ()>
+
+=head2 C<get_pull_requests ()>
+
+=head2 C<projects ()>
+
+=head2 C<pull_requests ()>
+
+=head2 C<repositories ()>
+
+=head1 ATTRIBUTES
+
+=head2 url
+
+=head2 host
+
+=head2 user
+
+=head2 pass
+
+=head2 mech
+
+=head2 opt
 
 =head1 DIAGNOSTICS
 

@@ -23,7 +23,6 @@ has [qw/
     version
     attributes
     open
-    locke
     fromRef
     updatedDate
     createdDate
@@ -132,6 +131,45 @@ This documentation refers to App::BitBucketCli::PullRequest version 0.0.1
 
 =head1 SUBROUTINES/METHODS
 
+
+
+=head2 C<TO_JSON ()>
+
+Used by L<JSON::XS> for dumping the object
+
+=head1 ATTRIBUTES
+
+=head2 state
+
+=head2 id
+
+=head2 toRef
+
+=head2 closed
+
+=head2 version
+
+=head2 attributes
+
+=head2 open
+
+=head2 fromRef
+
+=head2 updatedDate
+
+=head2 createdDate
+
+=head2 title
+
+=head2 links
+
+=head2 reviewers
+
+=head2 participants
+
+=head2 link
+
+=head2 author
 
 =head1 DIAGNOSTICS
 

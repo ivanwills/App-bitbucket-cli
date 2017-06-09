@@ -111,6 +111,20 @@ This module implement the sub-commands for the L<bb-cli> command line program.
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<projects ()>
+
+=head2 C<repositories ()>
+
+=head2 C<pull_requests ()>
+
+=head2 C<BUILDARGS ()>
+
+Moo builder
+
+=head1 ATTRIBUTES
+
+=head2 C<core>
+
 =head1 DIAGNOSTICS
 
 =head1 CONFIGURATION AND ENVIRONMENT

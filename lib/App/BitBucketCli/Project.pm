@@ -60,6 +60,29 @@ This documentation refers to App::BitBucketCli::Project version 0.0.1
 =head1 SUBROUTINES/METHODS
 
 
+
+=head2 C<TO_JSON ()>
+
+Used by L<JSON::XS> for dumping the object
+
+=head1 ATTRIBUTES
+
+=head2 description
+
+=head2 id
+
+=head2 key
+
+=head2 link
+
+=head2 links
+
+=head2 name
+
+=head2 public
+
+=head2 type
+
 =head1 DIAGNOSTICS
 
 =head1 CONFIGURATION AND ENVIRONMENT

@@ -106,6 +106,39 @@ This documentation refers to App::BitBucketCli::Branch version 0.0.1
 =head1 SUBROUTINES/METHODS
 
 
+
+=head2 C<TO_JSON ()>
+
+Used by L<JSON::XS> for dumping the object
+
+=head1 ATTRIBUTES
+
+=head2 displayId
+
+=head2 id
+
+=head2 isDefault
+
+=head2 latestChangeset
+
+=head2 latestCommit
+
+=head2 metadata
+
+=head2 project
+
+=head2 repository
+
+=head2 team
+
+=head2 pull_request
+
+=head2 primary_job
+
+=head2 pr_job
+
+=head2 lastChangeTime
+
 =head1 DIAGNOSTICS
 
 =head1 CONFIGURATION AND ENVIRONMENT
