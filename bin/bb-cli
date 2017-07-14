@@ -69,12 +69,6 @@ sub main {
 
     $options = set_defaults($options);
 
-    warn Dumper {
-        host => $options->{host},
-        user => $options->{username},
-        pass => $options->{password},
-    }, $options, \@ARGV;
-
     # do stuff here
     my $bbs = App::BitBucketCli->new(
         host => $options->{host},
@@ -102,6 +96,10 @@ sub set_defaults {
 
     my $top = `git rev-parse --show-toplevel`;
     chomp $top;
+
+    $opt->{host}     ||= $config->{host};
+    $opt->{username} ||= $config->{user};
+    $opt->{password} ||= $config->{pass};
 
     if ($top) {
         # find other information about repository
