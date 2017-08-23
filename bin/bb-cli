@@ -34,13 +34,22 @@ sub main {
                     notbuilt => 'grey12',
                 },
             },
-            sub_command => [
+            sub_command => {
                 branch    => [
                     'long|l',
                     'recipient|R=s',
                     'verbose|v+',
                 ],
-            ],
+                projects => [
+                ],
+                repositories => [
+                    'project|p=s',
+                ],
+                pull_requests => [
+                    'repository|r=s',
+                    'project|p=s',
+                ],
+            },
             auto_complete => sub {
                 my ($option, $auto, $errors) = @_;
                 my $sub_command = $option->cmd;
