@@ -23,7 +23,7 @@ exit main();
 sub main {
     my ($options, $cmd, $opt) = get_options(
         {
-            name        => 'jenkins-cli',
+            name        => 'bb-cli',
             conf_prefix => '.',
             helper      => 1,
             default     => {
@@ -86,16 +86,6 @@ sub main {
         opt  => $options,
     );
 
-    $cmd =~ s/-/_/gxms;
-    my %map = (
-        $cmd => $cmd,
-        ls    => 'list',
-        repos => 'repositories',
-        prs   => 'pull_requests',
-    );
-
-    $cmd = $map{$cmd};
-
     return $bbs->$cmd(@ARGV) || 0;
 }
 
@@ -103,12 +93,12 @@ sub set_defaults {
     my ($opt) = @_;
     my $config = eval { LoadFile($ENV{HOME} . '/.bb-cli.yml') } || {};
 
-    my $top = `git rev-parse --show-toplevel`;
-    chomp $top;
-
     $opt->{host}     ||= $config->{host};
     $opt->{username} ||= $config->{user};
     $opt->{password} ||= $config->{pass};
+
+    my $top = `git rev-parse --show-toplevel 2> /dev/null`;
+    chomp $top;
 
     if ($top) {
         # find other information about repository
@@ -131,10 +121,10 @@ sub set_defaults {
                     $opt = { %$opt, %{ $config->{$host} } };
                 }
 
-                $opt->{host} ||= $host;
+                $opt->{host}     ||= $host;
                 $opt->{username} ||= $user;
-                $opt->{project} ||= $project;
-                $opt->{repo} ||= $repo;
+                $opt->{project}  ||= $project;
+                $opt->{repo}     ||= $repo;
             }
             elsif ( $url =~ /^ssh/ ) {
                 # ssh://git@stash.optusnet.com.au:45222/lux/lux.git
@@ -144,9 +134,9 @@ sub set_defaults {
                     $opt = { %$opt, %{ $config->{$host} } };
                 }
 
-                $opt->{host} ||= $host;
+                $opt->{host}    ||= $host;
                 $opt->{project} ||= $project;
-                $opt->{repo} ||= $repo;
+                $opt->{repo}    ||= $repo;
             }
         }
 
