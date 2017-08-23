@@ -186,13 +186,16 @@ sub _get {
 
 sub _url {
     my ($self) = @_;
-    my $url = "https://"
-        . _url_encode($self->user)
-        . ':'
-        . _url_encode($self->pass)
-        . '@'
-        . $self->host
-        . "/rest/api/1.0";
+    my $url = "https://";
+    if ( $self->user ) {
+        $url .= _url_encode($self->user);
+
+        if ( $self->pass ) {
+            $url .= ':' . _url_encode($self->pass);
+        }
+        $url .= '@';
+    }
+    $url .= $self->host . "/rest/api/1.0";
 
     return $url;
 }
