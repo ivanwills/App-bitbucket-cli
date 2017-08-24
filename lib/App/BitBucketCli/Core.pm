@@ -18,6 +18,7 @@ use App::BitBucketCli::Project;
 use App::BitBucketCli::Repository;
 use App::BitBucketCli::Branch;
 use App::BitBucketCli::PullRequest;
+use YAML::Syck qw/Dump/;
 
 our $VERSION = 0.001;
 
@@ -90,6 +91,21 @@ sub repositories {
     return map {App::BitBucketCli::Repository->new($_)} @repositories;
 }
 
+sub repository {
+    my ($self, $project, $repository) = @_;
+
+    my $json;
+    eval {
+        $json = $self->_get($self->url . "/projects/$project/repos/$repository");
+        1;
+    } || do {
+        warn "Couldn't get repository information $@\n";
+        return [];
+    };
+
+    return $json;
+}
+
 sub pull_requests {
     my ($self, $project, $repository) = @_;
     my @pull_requests;
@@ -128,19 +144,14 @@ sub branch {
 }
 
 sub get_pull_requests {
-    my ($self, $project, $repository) = @_;
+    my ($self, $project, $repository, $state) = @_;
     my $json;
     my @prs;
+    $state = $state ? "?state=$state" : '';
 
-    eval {
-        $json = $self->_get($self->url . "/projects/$project/repos/$repository/pull-requests");
-    };
-    if ($@) {
-        warn "Couldn't get pull requests for $project/$repository\n";
-        return [];
-    }
+    my $next = $self->_get_all("/projects/$project/repos/$repository/pull-requests$state");
 
-    for my $pr (@{ $json->{values} }) {
+    while ( my $pr = $next->() ) {
         push @prs, App::BitBucketCli::PullRequest->new($pr);
     }
 
@@ -149,24 +160,10 @@ sub get_pull_requests {
 
 sub get_branches {
     my ($self, $project, $repository) = @_;
-    my $json;
     my @branches;
+    my $next = $self->_get_all("/projects/$project/repos/$repository/branches?orderBy=MODIFICATION&details=true");
 
-    eval {
-        $json = $self->_get($self->url . "/projects/$project/repos/$repository/branches?orderBy=MODIFICATION&details=true&limit=100");
-    };
-    my $error = $@;
-    if ($error) {
-        if ($error =~ /Unauthorized/) {
-            warn "Unauthorized, please try resetting your password!\n";
-            exit 10;
-        }
-
-        warn "Couldn't get branches of $project/$repository\n";
-        return [];
-    }
-
-    for my $branch (@{ $json->{values} }) {
+    while ( my $branch = $next->() ) {
         $branch->{project}    = $project;
         $branch->{repository} = $repository;
         push @branches, App::BitBucketCli::Branch->new($branch);
@@ -175,10 +172,36 @@ sub get_branches {
     return \@branches;
 }
 
+sub _get_all {
+    my ($self, $url) = @_;
+    my $last_page = 0;
+    my $next_page_start = 0;
+    my $limit = 30;
+
+    my $json;
+
+    return sub {
+        if ( $json && @{ $json->{values} } ) {
+            return shift @{ $json->{values} };
+        }
+        if ($last_page) {
+            return;
+        }
+
+        my $page_url = $self->url . $url . ( $url =~ /[?]/ ? '&' : '?' ) . "limit=$limit&start=$next_page_start";
+        $json = $self->_get($page_url);
+
+        $last_page = $json->{isLastPage};
+        $next_page_start = $json->{nextPageStart};
+
+        return shift @{ $json->{values} || [] };
+    };
+}
+
 sub _get {
     my ($self, $url) = @_;
 
-    #warn "$url\n";
+    warn "$url\n" if $ENV{BB_SHOW_URLS};
     $self->mech->get($url);
 
     return decode_json($self->mech->content);
