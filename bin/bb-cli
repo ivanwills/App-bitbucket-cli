@@ -45,6 +45,10 @@ sub main {
                 repositories => [
                     'project|p=s',
                 ],
+                repository => [
+                    'project|p=s',
+                    'repository|r=s',
+                ],
                 pull_requests => [
                     'repository|r=s',
                     'project|p=s',
