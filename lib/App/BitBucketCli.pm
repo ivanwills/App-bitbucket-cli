@@ -67,19 +67,47 @@ sub repositories {
     }
 }
 
+sub repository {
+    my ($self) = @_;
+
+    my $details  = $self->core->repository($self->opt->{project}, $self->opt->{repository});
+    my $branches = @{ $self->core->get_branches($self->opt->{project}, $self->opt->{repository}) || [] };
+    my $prs_open     = @{ $self->core->get_pull_requests($self->opt->{project}, $self->opt->{repository}) || [] };
+    my $prs_merged   = @{ $self->core->get_pull_requests($self->opt->{project}, $self->opt->{repository}, 'merged') || [] };
+    my $prs_declined = @{ $self->core->get_pull_requests($self->opt->{project}, $self->opt->{repository}, 'declined') || [] };
+
+    print $self->opt->{repository}, "\n";
+    print "  $details->{description}\n" if $details->{description};
+    print "  git clone $details->{cloneUrl}\n";
+    print "  Pull Requests: $prs_open / $prs_merged / $prs_declined\n";
+    print "  Branches     : $branches\n";
+}
+
 sub pull_requests {
     my ($self) = @_;
 
     my @pull_requests = sort {
             lc $a->id cmp lc $b->id;
         }
-        $self->core->pull_requests($self->opt->{project}, $self->opt->{repo});
+        $self->core->pull_requests($self->opt->{project}, $self->opt->{repository});
 
     for my $pull_request (@pull_requests) {
         print $pull_request->id . ' - ' . $pull_request->title . "\n";
     }
 }
 
+sub branches {
+    my ($self) = @_;
+
+    my @pull_requests = sort {
+            lc $a->id cmp lc $b->id;
+        }
+        $self->core->branches($self->opt->{project}, $self->opt->{repository});
+
+    for my $pull_request (@pull_requests) {
+        print $pull_request->id . ' - ' . $pull_request->title . "\n";
+    }
+}
 
 1;
 
