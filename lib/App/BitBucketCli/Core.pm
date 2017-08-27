@@ -106,7 +106,7 @@ sub repository {
 }
 
 sub pull_requests {
-    my ($self, $project, $repository) = @_;
+    my ($self, $project, $repository, $state) = @_;
     my @pull_requests;
     my $last_page = 0;
     my $next_page_start = 0;
