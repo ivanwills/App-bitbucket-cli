@@ -8,18 +8,18 @@ my $builder = Module::Build->new(
     dist_author       => 'Ivan Wills <ivan.wills@gmail.com>',
     dist_version_from => 'lib/App/BitBucketCli.pm',
     requires          => {
-        'perl'           => 5.008,
-        'File::ShareDir' =>  0,
+        'perl'           => '5.006',
+        'Getopt::Alt'    => '0.4.5',
         'Moo'            => '2.0',
         'Path::Tiny'     => '0.076',
+        'JSON::XS'       => 0,
+        'WWW::Mechanize' => 0,
+        'YAML::Syck'     => 0,
     },
     build_requires => {
+        'Module::Build'  => '0.422',
         'Test::More'     => 0,
         'Test::Warnings' => 0,
-    },
-    share_dir => {
-        dist => [
-        ],
     },
     add_to_cleanup     => [ 'App-BitBucket-cli-*' ],
     create_license     => 1,
