@@ -8,12 +8,11 @@ package App::BitBucketCli::Project;
 
 use Moo;
 use warnings;
-use version;
 use Carp;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 
-our $VERSION = version->new('0.0.1');
+our $VERSION = 0.001;
 
 has [qw/
     description
@@ -44,7 +43,7 @@ App::BitBucketCli::Project - Stores a projects details
 
 =head1 VERSION
 
-This documentation refers to App::BitBucketCli::Project version 0.0.1
+This documentation refers to App::BitBucketCli::Project version 0.001
 
 =head1 SYNOPSIS
 

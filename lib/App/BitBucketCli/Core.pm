@@ -8,7 +8,6 @@ package App::BitBucketCli::Core;
 
 use Moo;
 use warnings;
-use version;
 use Carp;
 use WWW::Mechanize;
 use JSON::XS qw/decode_json encode_json/;
@@ -239,7 +238,7 @@ App::BitBucketCli::Core - Library for talking to BitBucket Server (or Stash)
 
 =head1 VERSION
 
-This documentation refers to App::BitBucketCli::Core version 0.0.1
+This documentation refers to App::BitBucketCli::Core version 0.001
 
 
 =head1 SYNOPSIS

@@ -8,12 +8,11 @@ package App::BitBucketCli::PullRequest;
 
 use Moo;
 use warnings;
-use version;
 use Carp;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 
-our $VERSION = version->new('0.0.1');
+our $VERSION = 0.001;
 
 has [qw/
     state
@@ -116,7 +115,7 @@ App::BitBucketCli::PullRequest - Stores details about a pull request
 
 =head1 VERSION
 
-This documentation refers to App::BitBucketCli::PullRequest version 0.0.1
+This documentation refers to App::BitBucketCli::PullRequest version 0.001
 
 =head1 SYNOPSIS
 
