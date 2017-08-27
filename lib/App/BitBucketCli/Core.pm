@@ -269,6 +269,8 @@ This documentation refers to App::BitBucketCli::Core version 0.001
 
 =head2 C<repositories ()>
 
+=head2 C<repository ()>
+
 =head1 ATTRIBUTES
 
 =head2 url

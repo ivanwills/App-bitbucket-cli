@@ -142,6 +142,10 @@ This module implement the sub-commands for the L<bb-cli> command line program.
 
 =head2 C<repositories ()>
 
+=head2 C<repository ()>
+
+=head2 C<branches ()>
+
 =head2 C<pull_requests ()>
 
 =head2 C<BUILDARGS ()>
