@@ -140,13 +140,23 @@ This module implement the sub-commands for the L<bb-cli> command line program.
 
 =head2 C<projects ()>
 
+Lists all of the projects the user can view.
+
 =head2 C<repositories ()>
+
+Lists all of the repositories in a project
 
 =head2 C<repository ()>
 
+Shows details of a repository
+
 =head2 C<branches ()>
 
+Lists the branches of a repository
+
 =head2 C<pull_requests ()>
+
+Lists the pull requests of a repository
 
 =head2 C<BUILDARGS ()>
 
@@ -155,6 +165,8 @@ Moo builder
 =head1 ATTRIBUTES
 
 =head2 C<core>
+
+Is a L<App::BitBucketCli::Core> object for talking to the server.
 
 =head1 DIAGNOSTICS
 
