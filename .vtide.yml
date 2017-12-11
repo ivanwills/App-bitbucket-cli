@@ -32,3 +32,6 @@ terminals:
     wait: 1
     edit:
       - bin
+  5:
+    restart: 1
+    edit: test
