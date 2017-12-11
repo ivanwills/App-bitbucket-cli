@@ -265,11 +265,17 @@ This documentation refers to App::BitBucketCli::Core version 0.001
 
 =head2 C<projects ()>
 
-=head2 C<pull_requests ()>
+=head2 C<pull_requests ( $project, $repository, $state )>
 
-=head2 C<repositories ()>
+Gets all of the pull reequests in C<$state>.
 
-=head2 C<repository ()>
+=head2 C<repositories ( $project )>
+
+Gets details of all repositories of $project
+
+=head2 C<repository ( $project, $repository )>
+
+Gets details of a repository
 
 =head1 ATTRIBUTES
 
