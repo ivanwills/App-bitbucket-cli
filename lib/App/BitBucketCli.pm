@@ -61,8 +61,18 @@ sub repositories {
         }
         $self->core->repositories($self->opt->{project});
 
+    my %len;
     for my $repository (@repositories) {
-        print $repository->name . "\n";
+        $len{name} = length $repository->name if !$len{name} || $len{name} < length $repository->name;
+        $len{state} = length $repository->state if !$len{state} || $len{state} < length $repository->state;
+    }
+    for my $repository (@repositories) {
+        if ( $self->opt->long ) {
+            printf "%-$len{name}s %-$len{state}s %s\n", $repository->name, $repository->state, $repository->self;
+        }
+        else {
+            print $repository->name . "\n";
+        }
     }
 }
 

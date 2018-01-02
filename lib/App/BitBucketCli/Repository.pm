@@ -29,6 +29,11 @@ sub name {
     return $name;
 }
 
+sub self {
+    my ($self) = @_;
+    return $self->links->{self}[0]{href};
+}
+
 sub TO_JSON {
     my ($self) = @_;
     return { %{ $self }, name => $self->name };
