@@ -162,6 +162,11 @@ bb-cli - Command line tool for communicating with BitBucket Server
 =head1 SYNOPSIS
 
    bb-cli [option]
+   bb-cli projects [options]
+   bb-cli repositories [options]
+   bb-cli repository [options]
+   bb-cli branch [options]
+   bb-cli pull_requests [options]
 
  OPTIONS:
   -o --other         other option
