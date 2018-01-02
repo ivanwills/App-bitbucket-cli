@@ -19,15 +19,11 @@ has [qw/
     link
     links
     state
+    slug
+    name
 /] => (
     is  => 'rw',
 );
-
-sub name {
-    my ($self) = @_;
-    my ($name) = $self->link->{url} =~ m{([^/]+)/browse$};
-    return $name;
-}
 
 sub self {
     my ($self) = @_;
