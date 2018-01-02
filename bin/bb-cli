@@ -21,6 +21,22 @@ my ($name)   = $PROGRAM_NAME =~ m{^.*/(.*?)$}mxs;
 exit main();
 
 sub main {
+    my @common = (
+        'colors|c=s%',
+        'force|f!',
+        'host|h=s',
+        'long|l',
+        'out|o=s',
+        'password|P=s',
+        'project|p=s',
+        'remote|m=s',
+        'repository|r=s',
+        'regexp|R',
+        'sleep|s=i',
+        'test|T!',
+        'username|U=s',
+        'verbose|v+',
+    );
     my ($options, $cmd, $opt) = get_options(
         {
             name        => 'bb-cli',
@@ -36,20 +52,24 @@ sub main {
             },
             sub_command => {
                 branch    => [
+                    @common,
                     'long|l',
                     'recipient|R=s',
-                    'verbose|v+',
                 ],
                 projects => [
+                    @common,
                 ],
                 repositories => [
+                    @common,
                     'project|p=s',
                 ],
                 repository => [
+                    @common,
                     'project|p=s',
                     'repository|r=s',
                 ],
                 pull_requests => [
+                    @common,
                     'repository|r=s',
                     'project|p=s',
                 ],
@@ -62,22 +82,7 @@ sub main {
                 }
             },
         },
-        [
-            'colors|c=s%',
-            'force|f!',
-            'host|h=s',
-            'long|l',
-            'out|o=s',
-            'password|P=s',
-            'project|p=s',
-            'remote|m=s',
-            'repository|r=s',
-            'regexp|R',
-            'sleep|s=i',
-            'test|T!',
-            'username|U=s',
-            'verbose|v+',
-        ],
+        \@common,
     );
 
     $options = set_defaults($options);
