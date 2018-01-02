@@ -60,10 +60,6 @@ This documentation refers to App::BitBucketCli::Repository version 0.002
 
 =head1 SUBROUTINES/METHODS
 
-=head2 C<name ()>
-
-Extracts the repository name
-
 =head2 C<TO_JSON ()>
 
 Used by L<JSON::XS> for dumping the object
@@ -77,6 +73,12 @@ Used by L<JSON::XS> for dumping the object
 =head2 links
 
 =head2 state
+
+=head2 slug
+
+=head2 name
+
+The name of the repository
 
 =head1 DIAGNOSTICS
 
