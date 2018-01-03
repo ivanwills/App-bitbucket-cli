@@ -48,8 +48,19 @@ sub projects {
         }
         $self->core->projects();
 
+    my %len;
     for my $project (@projects) {
-        print $project->name . "\n";
+        $len{name} = length $project->name if !$len{name} || $len{name} < length $project->name;
+    }
+    for my $project (@projects) {
+        if ( $self->opt->long ) {
+            my $desc = join ' ' x ( $len{name} + 1 ),
+                split /\n/, $project->description || '';
+            printf "%-$len{name}s %s\n", $project->name, $desc;
+        }
+        else {
+            print $project->name . "\n";
+        }
     }
 }
 
