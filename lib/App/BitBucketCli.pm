@@ -51,12 +51,19 @@ sub projects {
     my %len;
     for my $project (@projects) {
         $len{name} = length $project->name if !$len{name} || $len{name} < length $project->name;
+        $len{key} = length $project->key if !$len{key} || $len{key} < length $project->key;
     }
     for my $project (@projects) {
         if ( $self->opt->long ) {
-            my $desc = join ' ' x ( $len{name} + 1 ),
-                split /\n/, $project->description || '';
-            printf "%-$len{name}s %s\n", $project->name, $desc;
+            my $desc = $project->description || '';
+            if ( $desc ) {
+                $desc =~ s/^\s+//xms;
+
+                $desc = join "\n" . ' ' x ( $len{name} + $len{key} + 2 ),
+                    split /\r?\n/, $desc;
+            }
+
+            printf "%-$len{name}s %-$len{key}s %s\n", $project->name, $project->key, $desc;
         }
         else {
             print $project->name . "\n";
