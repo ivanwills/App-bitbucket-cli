@@ -8,11 +8,15 @@ editor:
     main:
       - lib/App/BitBucketCli.pm
       - lib/App/BitBucketCli/Core.pm
+      - lib/App/BitBucketCli/Base.pm
     other:
       - lib/App/BitBucketCli/Project.pm
       - lib/App/BitBucketCli/Repository.pm
       - lib/App/BitBucketCli/Branch.pm
       - lib/App/BitBucketCli/PullRequest.pm
+    link:
+      - lib/App/BitBucketCli/Links.pm
+      - lib/App/BitBucketCli/Link.pm
 name: bitbucket-cli
 terminals:
   1a:
@@ -28,10 +32,12 @@ terminals:
   3:
     edit: other
   4:
+    edit: link
+  5:
+    restart: 1
+    edit: test
+  6:
     restart: 1
     wait: 1
     edit:
       - bin
-  5:
-    restart: 1
-    edit: test
