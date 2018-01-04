@@ -14,10 +14,9 @@ use English qw/ -no_match_vars /;
 
 our $VERSION = 0.002;
 
+extends qw/App::BitBucketCli::Base/;
+
 has [qw/
-    id
-    link
-    links
     state
     slug
     name
@@ -28,11 +27,6 @@ has [qw/
 sub self {
     my ($self) = @_;
     return $self->links->{self}[0]{href};
-}
-
-sub TO_JSON {
-    my ($self) = @_;
-    return { %{ $self }, name => $self->name };
 }
 
 1;

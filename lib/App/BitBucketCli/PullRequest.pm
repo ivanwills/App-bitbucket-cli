@@ -14,9 +14,10 @@ use English qw/ -no_match_vars /;
 
 our $VERSION = 0.002;
 
+extends qw/App::BitBucketCli::Base/;
+
 has [qw/
     state
-    id
     toRef
     closed
     version
@@ -26,10 +27,8 @@ has [qw/
     updatedDate
     createdDate
     title
-    links
     reviewers
     participants
-    link
     author
 /] => (
     is  => 'rw',
@@ -98,11 +97,6 @@ sub to_data {
         repository  => $self->to_repository,
         release_age => undef,
     };
-}
-
-sub TO_JSON {
-    my ($self) = @_;
-    return { %{ $self } };
 }
 
 1;

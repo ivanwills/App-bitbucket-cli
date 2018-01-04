@@ -14,9 +14,10 @@ use English qw/ -no_match_vars /;
 
 our $VERSION = 0.002;
 
+extends qw/App::BitBucketCli::Base/;
+
 has [qw/
     displayId
-    id
     isDefault
     latestChangeset
     latestCommit
@@ -72,11 +73,6 @@ sub _lastChangeTime {
     my $time = $metadata->{'com.atlassian.stash.stash-branch-utils:latest-changeset-metadata'}{authorTimestamp};
 
     return $time ? int $time / 1000 : 0;
-}
-
-sub TO_JSON {
-    my ($self) = @_;
-    return { %{ $self }, metadata => undef };
 }
 
 1;
