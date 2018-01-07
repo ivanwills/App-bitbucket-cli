@@ -267,7 +267,7 @@ This documentation refers to App::BitBucketCli::Core version 0.002
 
 =head2 C<pull_requests ( $project, $repository, $state )>
 
-Gets all of the pull reequests in C<$state>.
+Gets all of the pull requests in C<$state>.
 
 =head2 C<repositories ( $project )>
 
