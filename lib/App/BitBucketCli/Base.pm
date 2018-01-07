@@ -78,6 +78,8 @@ L<App::BitBucket::Repository>, ...
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<BUILDARGS ()>
+
 =head2 C<TO_JSON ()>
 
 Used by L<JSON::XS> for dumping the object

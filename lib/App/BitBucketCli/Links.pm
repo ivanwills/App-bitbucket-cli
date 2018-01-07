@@ -71,7 +71,7 @@ This documentation refers to App::BitBucketCli::Links version 0.002
 
 =head1 SUBROUTINES/METHODS
 
-
+=head2 C<BUILDARGS ()>
 
 =head2 C<TO_JSON ()>
 
@@ -81,19 +81,9 @@ Used by L<JSON::XS> for dumping the object
 
 =head2 description
 
-=head2 id
+=head2 clone
 
-=head2 key
-
-=head2 link
-
-=head2 links
-
-=head2 name
-
-=head2 public
-
-=head2 type
+=head2 self
 
 =head1 DIAGNOSTICS
 

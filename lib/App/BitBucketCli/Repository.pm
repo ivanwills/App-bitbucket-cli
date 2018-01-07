@@ -54,6 +54,10 @@ This documentation refers to App::BitBucketCli::Repository version 0.002
 
 =head1 SUBROUTINES/METHODS
 
+=head2 C<self ()>
+
+Returns the "self" url.
+
 =head2 C<TO_JSON ()>
 
 Used by L<JSON::XS> for dumping the object
