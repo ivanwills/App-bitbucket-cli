@@ -26,7 +26,6 @@ sub main {
         'force|f!',
         'host|h=s',
         'long|l',
-        'out|o=s',
         'password|P=s',
         'project|p=s',
         'remote|m=s',
@@ -51,7 +50,8 @@ sub main {
                 },
             },
             sub_command => {
-                branch    => [
+                help   => [],
+                branch => [
                     @common,
                     'long|l',
                     'recipient|R=s',
@@ -84,6 +84,8 @@ sub main {
         },
         \@common,
     );
+
+    $opt->_show_help if $cmd eq 'help';
 
     $options = set_defaults($options);
 
@@ -174,7 +176,29 @@ bb-cli - Command line tool for communicating with BitBucket Server
    bb-cli pull_requests [options]
 
  OPTIONS:
-  -o --other         other option
+  -c --colors[=]str Change colours used specified as key=value
+                    eg --colors disabled=grey22
+                    current colour names aborted, disabled and notbuilt
+  -f --force        Force action
+  -l --long         Show long form data if possible
+  -p --project[=]str
+                    For commands that need a project name this is the name to use
+  -R --recipient[=]str
+                    ??
+  -R --regexp[=]str ??
+  -m --remote[=]str ??
+  -r --repository[=]str
+                    For commands that work on repositories this contains the repository
+  -s --sleep[=]seconds
+                    ??
+  -t --test         ??
+
+ CONFIGURATION:
+  -h --host[=]str   Specify the Stash/Bitbucket Servier host name
+  -P --password[=]str
+                    The password to connect to the server as
+  -u --username[=]str
+                    The username to connect to the server as
 
   -v --verbose       Show more detailed option
      --version       Prints the version information
