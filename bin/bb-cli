@@ -104,10 +104,6 @@ sub set_defaults {
     my ($opt) = @_;
     my $config = eval { LoadFile($ENV{HOME} . '/.bb-cli.yml') } || {};
 
-    $opt->{host}     ||= $config->{host};
-    $opt->{username} ||= $config->{user};
-    $opt->{password} ||= $config->{pass};
-
     my $top = `git rev-parse --show-toplevel 2> /dev/null`;
     chomp $top;
 
@@ -123,35 +119,41 @@ sub set_defaults {
 
         for my $remote (@remotes) {
             my ($name, $url, $type) = $remote =~ /^(\S+)\s+(.*?)\s+[(](\w+)[)]$/;
-            next if $name ne $opt->{remote};
+            next if $name ne $opt->remote;
 
             if ( $url =~ /^http/ ) {
-                my ($protocol, $user, $host, $project, $repo) = $url =~ m{^(https?)://(?:([^@]+)[@])?([\w.]+)(?:[:]\d+)?/scm/(\w+)/(\w+)};
-                #warn "$url\n$protocol $user $host $project $repo\n";
+                my ($protocol, $user, $host, $project, $repo) = $url =~ m{^(https?)://(?:([^@]+)[@])?([^:/]+)(?:[:]\d+)?/scm/(\w+)/(\w+)};
                 if ( $config->{$host} ) {
-                    $opt = { %$opt, %{ $config->{$host} } };
+                    for my $key (keys %{ $config->{$host} }) {
+                        $opt->{$key} ||= $config->{$host}{$key};
+                    }
                 }
 
-                $opt->{host}     ||= $host;
-                $opt->{username} ||= $user;
-                $opt->{project}  ||= $project;
-                $opt->{repo}     ||= $repo;
+                $opt->{host}       ||= $host;
+                $opt->{username}   ||= $user;
+                $opt->{project}    ||= $project;
+                $opt->{repository} ||= $repo;
             }
             elsif ( $url =~ /^ssh/ ) {
                 # ssh://git@stash.optusnet.com.au:45222/lux/lux.git
                 my ($protocol, $host, $port, $project, $repo) = $url =~ m{^(ssh)://(?:[^@]+@)?([^:/]+)(?:[:](\d+))?/([^/]+)/(.*?)[.]git$};
                 #warn "$url\n$protocol $host $port $project $repo\n";
                 if ( $config->{$host} ) {
-                    $opt = { %$opt, %{ $config->{$host} } };
+                    for my $key (keys %{ $config->{$host} }) {
+                        $opt->{$key} ||= $config->{$host}{$key};
+                    }
                 }
 
-                $opt->{host}    ||= $host;
-                $opt->{project} ||= $project;
-                $opt->{repo}    ||= $repo;
+                $opt->{host}       ||= $host;
+                $opt->{project}    ||= $project;
+                $opt->{repository} ||= $repo;
             }
         }
-
     }
+
+    $opt->{host}     ||= $config->{host};
+    $opt->{username} ||= $config->{user};
+    $opt->{password} ||= $config->{pass};
 
     return $opt;
 }
