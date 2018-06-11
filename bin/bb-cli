@@ -67,13 +67,18 @@ sub main {
     $options = set_defaults($options);
 
     # do stuff here
-    my $bbs = App::BitBucketCli->new(
+    my $module = 'App::BitBucketCli::Command::' . join '', map {ucfirst $_} split /-/, $cmd;
+    my $file = "$module.pm";
+    $file =~ s/::/\//g;
+    require $file;
+    my $bbs = $module->new(
         host => $options->{host},
         user => $options->{username},
         pass => $options->{password},
         opt  => $options,
     );
 
+    $cmd =~ s/-/_/g;
     return $bbs->$cmd(@ARGV) || 0;
 }
 
