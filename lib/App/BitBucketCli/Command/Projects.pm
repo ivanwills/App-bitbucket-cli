@@ -8,17 +8,26 @@ package App::BitBucketCli::Command::Projects;
 
 use Moo;
 use warnings;
-use version;
 use Carp;
-use Scalar::Util;
-use List::Util;
-#use List::MoreUtils;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 
 extends 'App::BitBucketCli';
 
 our $VERSION = 0.004;
+
+sub options {
+    return [qw/
+        colors|c=s%
+        force|f!
+        long|l
+        project|p=s
+        remote|m=s
+        repository|r=s
+        regexp|R
+        sleep|s=i
+    /]
+}
 
 sub projects {
     my ($self) = @_;
