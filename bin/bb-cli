@@ -137,7 +137,7 @@ sub set_defaults {
 
 sub sub_commands {
     my ($self)   = @_;
-    my $sub_file = path $ENV{HOME}, '.group-git', 'sub-commands.yml';
+    my $sub_file = path $ENV{HOME}, '.bb-cli', 'sub-commands.yml';
 
     mkdir $sub_file->parent if ! -d $sub_file->parent;
 
@@ -148,7 +148,7 @@ sub sub_commands {
 
 sub generate_sub_command {
     my ($self)   = @_;
-    my $sub_file = path $ENV{HOME}, '.group-git', 'sub-commands.yml';
+    my $sub_file = path $ENV{HOME}, '.bb-cli', 'sub-commands.yml';
 
     require Module::Pluggable;
     Module::Pluggable->import( require => 1, search_path => ['App::BitBucketCli::Command'] );
