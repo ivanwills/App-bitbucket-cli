@@ -18,15 +18,14 @@ our $VERSION = 0.004;
 
 sub options {
     return [qw/
-        long|l
-        recipient|R=s
         colors|c=s%
         force|f!
         long|l
         project|p=s
+        recipient|R=s
+        regexp|R
         remote|m=s
         repository|r=s
-        regexp|R
         sleep|s=i
     /]
 }

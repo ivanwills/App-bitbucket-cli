@@ -22,9 +22,9 @@ sub options {
         force|f!
         long|l
         project|p=s
+        regexp|R
         remote|m=s
         repository|r=s
-        regexp|R
         sleep|s=i
     /]
 }
