@@ -50,7 +50,8 @@ sub main {
                     notbuilt => 'grey12',
                 },
             },
-            sub_command => sub_commands(),
+            sub_command   => sub_commands(),
+            help_packages => sub_commands_help(),
             auto_complete => sub {
                 my ($option, $auto, $errors) = @_;
                 my $sub_command = $option->cmd;
@@ -138,6 +139,18 @@ sub set_defaults {
     $opt->{password} ||= $config->{pass};
 
     return $opt;
+}
+
+sub sub_commands_help {
+    my ($self) = @_;
+    my %help;
+
+    for my $cmd (keys %{sub_commands()}) {
+        my $module = 'App::BitBucketCli::Command::' . join '', map {ucfirst $_} split /-/, $cmd;
+        $help{$cmd} = $module;
+    }
+
+    return \%help;
 }
 
 sub sub_commands {
