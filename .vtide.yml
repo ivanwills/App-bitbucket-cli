@@ -1,8 +1,8 @@
 ---
 count: 12
 default:
-  restart: 0
-  wait: 0
+  restart: 1
+  wait: 1
 editor:
   files:
     main:
@@ -15,10 +15,25 @@ editor:
       - lib/App/BitBucketCli/Branch.pm
       - lib/App/BitBucketCli/PullRequest.pm
     link:
-      - lib/App/BitBucketCli/Links.pm
       - lib/App/BitBucketCli/Link.pm
+      - lib/App/BitBucketCli/Links.pm
+    project:
+      - lib/App/BitBucketCli/Project.pm
+      - lib/App/BitBucketCli/Command/Projects.pm
+    repo:
+      - lib/App/BitBucketCli/Repository.pm
+      - lib/App/BitBucketCli/Command/Repository.pm
+      - lib/App/BitBucketCli/Command/Repositories.pm
+    branch:
+      - lib/App/BitBucketCli/Branch.pm
+      - lib/App/BitBucketCli/Command/Branches.pm
+    pr:
+      - lib/App/BitBucketCli/PullRequest.pm
+      - lib/App/BitBucketCli/Command/PullRequests.pm
 name: bitbucket-cli
 terminals:
+  1:
+    wait: 0
   1a:
     command: ./Build && ./Build testcover
     restart: 1
@@ -27,17 +42,22 @@ terminals:
       - lib
       - bin
       - tests
+  1b:
+    wait: 0
   2:
     edit: main
   3:
-    edit: other
-  4:
     edit: link
+  4:
+    edit: project
   5:
-    restart: 1
-    edit: test
+    edit: repo
   6:
-    restart: 1
-    wait: 1
+    edit: branch
+  7:
+    edit: pr
+  8:
     edit:
       - bin
+  9:
+    edit: test
