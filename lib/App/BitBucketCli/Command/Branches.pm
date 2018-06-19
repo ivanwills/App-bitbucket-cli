@@ -30,34 +30,16 @@ sub options {
     /]
 }
 
-sub projects {
+sub branches {
     my ($self) = @_;
 
-    my @projects = sort {
-            lc $a->name cmp lc $b->name;
+    my @pull_requests = sort {
+            lc $a->id cmp lc $b->id;
         }
-        $self->core->projects();
+        $self->core->branches($self->opt->{project}, $self->opt->{repository});
 
-    my %len;
-    for my $project (@projects) {
-        $len{name} = length $project->name if !$len{name} || $len{name} < length $project->name;
-        $len{key} = length $project->key if !$len{key} || $len{key} < length $project->key;
-    }
-    for my $project (@projects) {
-        if ( $self->opt->long ) {
-            my $desc = $project->description || '';
-            if ( $desc ) {
-                $desc =~ s/^\s+//xms;
-
-                $desc = join "\n" . ' ' x ( $len{name} + $len{key} + 2 ),
-                    split /\r?\n/, $desc;
-            }
-
-            printf "%-$len{name}s %-$len{key}s %s\n", $project->name, $project->key, $desc;
-        }
-        else {
-            print $project->name . "\n";
-        }
+    for my $pull_request (@pull_requests) {
+        print $pull_request->id . ' - ' . $pull_request->title . "\n";
     }
 }
 
