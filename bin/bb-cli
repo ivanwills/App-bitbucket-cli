@@ -12,7 +12,6 @@ use Getopt::Alt;
 use Data::Dumper qw/Dumper/;
 use English qw/ -no_match_vars /;
 use FindBin qw/$Bin/;
-use App::BitBucketCli;
 use YAML::Syck qw/LoadFile DumpFile/;
 use Path::Tiny;
 
@@ -57,6 +56,16 @@ sub main {
                 my $sub_command = $option->cmd;
                 if ( $sub_command eq '--' ) {
                     warn '--';
+                }
+                elsif ( ! $sub_command || $sub_command eq $name  || $sub_command eq $0 ) {
+                    my $part = shift @ARGV;
+                    print join "\n", (
+                        grep { $part ? /$part/ : 1 }
+                        sort keys %{ sub_commands() }
+                    ), '';
+                }
+                else {
+                    warn Dumper $sub_command, \@ARGV, $0;
                 }
             },
         },
