@@ -14,7 +14,7 @@ use English qw/ -no_match_vars /;
 
 extends 'App::BitBucketCli';
 
-our $VERSION = 0.004;
+our $VERSION = 0.005;
 
 sub options {
     return [qw/
@@ -72,7 +72,7 @@ App::BitBucketCli::Command::PullRequests - Show the pull requests of a repositor
 
 =head1 VERSION
 
-This documentation refers to App::BitBucketCli::Command::PullRequests version 0.004
+This documentation refers to App::BitBucketCli::Command::PullRequests version 0.005
 
 =head1 SYNOPSIS
 
