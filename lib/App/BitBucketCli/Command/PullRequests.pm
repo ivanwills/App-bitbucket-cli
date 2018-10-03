@@ -20,6 +20,7 @@ sub options {
     return [qw/
         colors|c=s%
         force|f!
+        state|s=s
         long|l
         project|p=s
         regexp|R
@@ -35,7 +36,7 @@ sub pull_requests {
     my @pull_requests = sort {
             lc $a->id cmp lc $b->id;
         }
-        $self->core->pull_requests($self->opt->{project}, $self->opt->{repository});
+        $self->core->pull_requests($self->opt->{project}, $self->opt->{repository}, $self->opt->{state} || 'OPEN');
 
     my @prs;
     my %max;
