@@ -107,6 +107,7 @@ sub repository {
 
 sub pull_requests {
     my ($self, $project, $repository, $state) = @_;
+    $state ||= 'OPEN';
     my @pull_requests;
     my $last_page = 0;
     my $next_page_start = 0;
@@ -115,7 +116,7 @@ sub pull_requests {
     while ( ! $last_page ) {
         my $json;
         eval {
-            $json = $self->_get($self->url . "/projects/$project/repos/$repository/pull-requests?limit=$limit&start=$next_page_start");
+            $json = $self->_get($self->url . "/projects/$project/repos/$repository/pull-requests?limit=$limit&start=$next_page_start&state=$state");
             1;
         } || do {
             warn "Couldn't list pull_requests $@\n";
