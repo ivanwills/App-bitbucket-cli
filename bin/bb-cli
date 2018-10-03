@@ -86,6 +86,7 @@ sub main {
         host => $options->{host},
         user => $options->{username},
         pass => $options->{password},
+        max  => $options->{max},
         opt  => $options,
     );
 
