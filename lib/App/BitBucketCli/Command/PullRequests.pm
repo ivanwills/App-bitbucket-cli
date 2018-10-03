@@ -20,6 +20,10 @@ sub options {
     return [qw/
         colors|c=s%
         force|f!
+        author|a=s
+        to_branch|to-branch|t=s
+        from_branch|from-branch|f=s
+        title|T=s
         state|s=s
         long|l
         project|p=s
@@ -40,7 +44,16 @@ sub pull_requests {
 
     my @prs;
     my %max;
+    my $author      = $self->opt->author();
+    my $to_branch   = $self->opt->to_branch();
+    my $from_branch = $self->opt->from_branch();
+    my $title       = $self->opt->title();
     for my $pull_request (@pull_requests) {
+        next if $author && $pull_request->author->{user}{displayName} !~ /$author/;
+        next if $to_branch && $pull_request->toRef->{displayId} !~ /$to_branch/;
+        next if $from_branch && $pull_request->fromRef->{displayId} !~ /$from_branch/;
+        next if $title && $pull_request->title !~ /$title/;
+
         push @prs, {
             id     => $pull_request->id,
             title  => $pull_request->title,
