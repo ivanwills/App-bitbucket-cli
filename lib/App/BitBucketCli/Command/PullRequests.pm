@@ -109,6 +109,16 @@ This documentation refers to App::BitBucketCli::Command::PullRequests version 0.
   -s --sleep[=]seconds
                     ??
   -t --test         ??
+  -a --author[=]regex
+                    Show only pull requests by this author
+  -t --to-branch[=]regex
+                    Show only pull requests to this branch
+  -f --from-branch[=]rege
+                    Show only pull requests from this branchx
+  -T --title[=]regex
+                    Show only pull requests matching this title
+  -s --state[=](OPEN|MERGED|DECLINED|ALL)
+                    Show pull requests of this type (Default OPEN)
 
  CONFIGURATION:
   -h --host[=]str   Specify the Stash/Bitbucket Servier host name
