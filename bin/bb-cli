@@ -168,7 +168,7 @@ sub sub_commands {
 
     mkdir $sub_file->parent if ! -d $sub_file->parent;
 
-    return LoadFile("$sub_file") if -f $sub_file;
+    return LoadFile("$sub_file") if -f $sub_file && (stat $sub_file)[9] > time - 60 * 60 * 24 * 31;
 
     return generate_sub_command();
 }
