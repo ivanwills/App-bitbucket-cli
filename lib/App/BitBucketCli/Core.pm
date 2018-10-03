@@ -41,6 +41,10 @@ has opt => (
     is      => 'rw',
     default => sub {{}},
 );
+has max => (
+    is      => 'rw',
+    default => 100,
+);
 
 sub projects {
     my ($self) = @_;
@@ -125,6 +129,7 @@ sub pull_requests {
         push @pull_requests, @{ $json->{values} };
         $last_page = $json->{isLastPage};
         $next_page_start = $json->{nextPageStart};
+        last if @pull_requests >= $self->max;
     }
 
     return map {App::BitBucketCli::PullRequest->new($_)} @pull_requests;
