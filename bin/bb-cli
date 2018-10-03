@@ -26,11 +26,12 @@ sub main {
         'force|f!',
         'host|h=s',
         'long|l',
+        'max|M=i',
         'password|P=s',
         'project|p=s',
+        'regexp|R',
         'remote|m=s',
         'repository|r=s',
-        'regexp|R',
         'sleep|s=i',
         'test|T!',
         'username|U=s',
@@ -219,6 +220,7 @@ bb-cli - Command line tool for communicating with BitBucket Server
                     current colour names aborted, disabled and notbuilt
   -f --force        Force action
   -l --long         Show long form data if possible
+  -M --max[=]int    The maximum number of records to fetch from BitBucket/Stash
   -p --project[=]str
                     For commands that need a project name this is the name to use
   -R --recipient[=]str
