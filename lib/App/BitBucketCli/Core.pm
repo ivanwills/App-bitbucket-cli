@@ -295,6 +295,10 @@ Gets details of a repository
 
 =head2 mech
 
+=head2 max
+
+Set the maximum number of results to collect from BitBucket Server.
+
 =head2 opt
 
 =head1 DIAGNOSTICS
