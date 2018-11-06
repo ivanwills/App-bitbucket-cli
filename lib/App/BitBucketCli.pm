@@ -35,6 +35,11 @@ around BUILDARGS => sub {
         %param = @params;
     }
 
+    # only pass on defined params
+    for my $key (keys %param) {
+        delete $param{$key} if ! defined $param{$key};
+    }
+
     $param{core} = App::BitBucketCli::Core->new(%param);
 
     return $class->$orig(%param);
