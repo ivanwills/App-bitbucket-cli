@@ -34,7 +34,13 @@ has [qw/
     is  => 'rw',
 );
 
-sub emails {
+has emails => (
+    is      => 'rw',
+    builder => '_emails',
+    lazy    => 1,
+);
+
+sub _emails {
     my $self = shift;
     my %emails;
 
@@ -44,9 +50,8 @@ sub emails {
             warn "No $users in " . $self->from_branch . "!\n";
             next;
         }
-        $self->$users( [$self->{$users}] ) if ref $self->$users ne 'ARRAY';
 
-        for my $user (@{ $self->{$users} }) {
+        for my $user (@{ ref $self->$users eq 'ARRAY' ? $self->{$users} : [$self->{$users}] }) {
             $emails{ $user->{user}{emailAddress} }++;
         }
     }
