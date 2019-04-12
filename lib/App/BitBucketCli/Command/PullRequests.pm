@@ -142,6 +142,8 @@ This documentation refers to App::BitBucketCli::Command::PullRequests version 0.
   -c --colors[=]str Change colours used specified as key=value
                     eg --colors disabled=grey22
                     current colour names aborted, disabled and notbuilt
+  -C --create       Construct the url to create a pull request using --from-branch
+                    (or the current branch) and --to-branch.
   -f --force        Force action
   -l --long         Show long form data if possible
   -p --project[=]str
@@ -162,9 +164,9 @@ This documentation refers to App::BitBucketCli::Command::PullRequests version 0.
                     matching matching this regex.
   -P --participant[=]regex
                     Show only pull requests with participants matching this regex
-  -t --to-branch[=]regex
+  -t --to-branch[=](regex|branch)
                     Show only pull requests to this branch
-  -f --from-branch[=]rege
+  -f --from-branch[=](regex|branch)
                     Show only pull requests from this branchx
   -T --title[=]regex
                     Show only pull requests matching this title
