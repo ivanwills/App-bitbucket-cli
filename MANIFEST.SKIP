@@ -93,6 +93,7 @@ errors.err
 .travis.yml
 .editorconfig
 .vtide.yml
+.vtide/start.log
 vim.sh
 vrc.yml
 tmp*
