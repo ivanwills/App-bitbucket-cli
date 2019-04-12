@@ -59,10 +59,7 @@ Debian_CPANTS.txt
 
 # Avoid MYMETA files
 ^MYMETA\.
-#!end included /usr/share/perl/5.14/ExtUtils/MANIFEST.SKIP
-
-# Avoid configuration metadata file
-^MYMETA\.
+MYMETA.json.lock
 
 # Avoid Module::Build generated and utility files.
 \bBuild$
