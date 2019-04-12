@@ -87,6 +87,9 @@ tags
 # Avoid prove saved state file
 .prove
 
+# ignore manifest skip file itself
+MANIFEST.SKIP
+
 # Other files of interest
 [.].*[.]tag$
 errors.err
