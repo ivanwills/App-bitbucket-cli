@@ -3,6 +3,8 @@
 <a href="https://travis-ci.org/ivanwills/App-BitBucketCli"><img src="https://travis-ci.org/ivanwills/App-BitBucketCli.png" alt="App-BitBucketCli"></a>
 <a href="https://coveralls.io/r/ivanwills/App-BitBucketCli?branch=master"><img src="https://coveralls.io/repos/ivanwills/App-BitBucketCli/badge.svg?branch=master" alt="Coverage Status" /></a>
 
+=end html
+
 =head1 App-bitbucket-cli
 
 This module provides the C<bb-cli> command for interacting with the Atlasian
